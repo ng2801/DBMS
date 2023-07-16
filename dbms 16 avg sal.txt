@@ -1,0 +1,18 @@
+create table empsal(empno int primary key,ename varchar(10),dept varchar(10),salary int);
+insert into empsal values(1,'anu','sales',10000),(2,'anu','HR',20000),(3,'manu','sales',30000),(4,'sanu','IT',40000),
+(5,'nanu','sales',30000),(6,'priya','HR',25000),(7,'vinu','IT',50000);
+
+create or replace function salcalc(d varchar)
+returns numeric as 
+$$
+declare
+av numeric(9,2);
+BEGIN
+select avg(salary) into av from empsal group by dept having dept=d;
+return av;
+end 
+$$ 
+language plpgsql;
+
+select salcalc('IT')"AVG";
+select * from empsal;

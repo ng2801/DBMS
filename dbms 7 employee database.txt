@@ -1,0 +1,31 @@
+create table employ(ename varchar(20) primary key,city varchar(20));
+insert into employ values('anu','calicut'),('anup','calicut'),('anusree','tvm'),
+('anupriya','kochi'),('anoop','trissur'),('anuvinda','kochi'),('appu','kochi');
+
+create table cmpny(cname varchar(20) primary key,city varchar(20));
+insert into cmpny values('infosis','calicut'),('IBM','kochi'),('wipro','tvm');
+
+create table manages(ename varchar(20) references employ(ename),mname varchar(20));
+insert into manages values('anu','anu'),('anup','anu'),('anusree','anoop'),
+('anupriya','anoop'),('anoop','anoop'),('anuvinda','anoop');
+
+create table works(ename varchar(20) references employ(ename),cname varchar(20) references
+cmpny(cname),salary int);
+insert into works values('anu','infosis',25000),('anup','infosis',9000),('anusree','wipro',30000),
+('anupriya','wipro',10000),('anoop','wipro',22000),('anuvinda','wipro',25000),('appu','IBM',25000);
+
+A) select ename from works where cname='infosis';
+
+B)select employ.ename,employ.city from employ,works where employ.ename=works.ename and
+works.cname='wipro';
+
+C)select employ.ename,employ.city from employ,works where employ.ename=works.ename and
+works.cname='infosis' and works.salary>10000;
+
+D)select employ.ename from employ,cmpny,works where employ.city=cmpny.city and
+employ.ename=works.ename and works.cname=cmpny.cname;
+
+E)select ename from employ where ename not in( select ename from works where cname='wipro');
+
+F)create view emplcount as select cname,count(cname)as count from works group by cname;
+ select cname from emplcount where count in(select max(count) from emplcount);

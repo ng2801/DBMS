@@ -1,0 +1,40 @@
+create table salaries(empno varchar(10),ename varchar(20),basic numeric(6));
+insert into salaries values('001','sian','150000'),('002','bony',150000),('003','nirmal',120000),('004','john',145008),
+('005','bejoy',100000),('006','nimil',159000),('007','sonu',150074),('008','gautham',132000),('009','niya',150037),
+('010','madhav',200000);
+
+do
+$$
+declare
+DA numeric(10);
+Gross numeric(8,2);
+PF numeric(10);
+NET numeric(8,2);
+Annual numeric(9,2);
+Tax numeric(10);
+Basic salaries.Basic % type;
+F Record;
+
+BEGIN
+RAISE NOTICE '                                      SALARY REPORT  ';
+RAISE NOTICE 'EmpNo   Name   BasicPay   DA  GrossSalary  PF  NetSalary  AnnualSalary   Tax';
+FOR F IN SELECT * FROM SALARIES
+LOOP
+DA=F.BASIC*.4;
+PF=F.BASIC*.1;
+GROSS=F.BASIC+DA;
+NET=GROSS-PF;
+ANNUAL=12*NET;
+IF ANNUAL<100000 THEN
+   TAX=0;
+ELSIF ANNUAL<=150000 THEN
+    TAX=(ANNUAL-100000)*.1;
+ELSIF ANNUAL<=250000 THEN
+	TAX= 5000+(ANNUAL-150000)*.2;
+ELSE
+     TAX=5000+20000+(ANNUAL-250000)*.3;
+END IF;
+RAISE NOTICE '%   %   %   %   %   %   %   % %',F.EmpNo,F.eName,F.Basic,DA,GROSS,PF,NET,ANNUAL,TAX;
+END LOOP;
+END;
+$$

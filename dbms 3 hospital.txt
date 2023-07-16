@@ -1,0 +1,18 @@
+Create table Hospital (doctorid varchar(5),doctorname varchar(10),department varchar(10),qualification
+varchar(10),experience integer);
+
+a)insert into hospital values('D001','Gopal','Dental','MBBS',3),('D002','Jaya','Cardio','MD',3.5),
+('D003','Nithya','skin','MBBS',7),
+('D004','Alex','ENT','MD',4),('D005','Sunaina','General','MBBS',2);
+
+b)select * from hospital;
+
+c)select doctorname,qualification from hospital where qualification='MD';
+
+d)select doctorname,qualification from hospital where experience>5 and qualification!='MD';
+
+e)select doctorname,department from hospital where department='skin';
+
+f)update hospital set experience=5 where doctorid='D005';
+
+g)delete from hospital where doctorid='D005';

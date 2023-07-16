@@ -1,0 +1,17 @@
+create table exam_result (rollno int, avg_score float, grade varchar(2));
+insert into exam_result values(01,69,null),(02,45,null),(03,25,null),(04,60,null),(05,70,null),(06,88,null),
+(07,92,null),(08,78,null),(09,64,null),(10,82,null);
+
+DO $$
+BEGIN
+UPDATE exam_result
+SET Grade=CASE
+WHEN avg_score BETWEEN 90 AND 100 THEN 'A'
+WHEN avg_score BETWEEN 75 AND 89 THEN 'B'
+WHEN avg_score BETWEEN 68 AND 74 THEN 'c'
+WHEN avg_score BETWEEN 50 AND 59 THEN 'D'
+ELSE 'E'
+END;
+END $$;
+
+select * from exam_result;

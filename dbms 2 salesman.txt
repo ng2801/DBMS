@@ -1,0 +1,25 @@
+create table salesman(salesman_no varchar(5)primary key,s_name varchar(10) not null,place
+varchar(15),phone varchar(15) unique);
+
+create table sales_order(order_no varchar(5) primary key,order_date date not null,salesman_no
+varchar(5) constraint sales_order_salesman_no_fkey references salesman(salesman_no),del_type char
+constraint sales_order_del_type_check check(del_type in ('p','f')),order_status varchar(15) constraint
+sales_order_order_status_check check(order_status in ('inprocess','fulfilled','backorder','cancelled')));
+
+a) insert into salesman values('S01','Rijas','Mumbai','9784563214');
+insert into salesman values('S08','Pranoy','Pune','6589632145');
+insert into sales_order values('OD01','12-02-2019','S01','p','inprocess');
+insert into sales_order values('OD02','25-03-2019','S08','f','cancelled');
+
+b) alter table sales_order drop constraint sales_order_salesman_no_fkey;
+alter table sales_order drop constraint sales_order_del_type_check;
+alter table sales_order drop constraint sales_order_order_status_check;
+
+c) alter table salesman drop constraint salesman_pkey;
+
+d) alter table salesman add primary key (salesman_no);
+
+e) alter table sales_order add foreign key (salesman_no) references salesman(salesman_no);
+alter table sales_order add constraint del_type check(del_type in('p','f'));
+alter table sales_order add constraint order_status check(order_status in
+('inprocess','fulfilled','backorder','cancelled')); 

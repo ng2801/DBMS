@@ -1,0 +1,26 @@
+create table bank_customer( accno integer primary key,cust_name varchar(10),place
+varchar(20));
+insert into bank_customer values(101,'anu','vtk'),(102,'anup','clt'),(103,'appu','tvm'),(104,'anupama','vtk'),(105,'anusree','clt');
+
+create table deposit(accno integer references bank_customer(accno),depositno integer primary key,depositamt integer);
+insert into deposit values(101,201,10000),
+(102,202,50000),(103,203,10000);
+
+create table loan(accno integer references bank_customer(accno),loanno integer primary key,loanamt integer);
+insert into loan values(101,301,1000),(102,302,5000),(104,303,10000);
+
+a) select * from bank_customer;
+
+b) select distinct bank_customer.accno,bank_customer.cust_name,deposit.depositamt from bank_customer,deposit,loan where 
+bank_customer.accno=deposit.accno and deposit.accno not
+in(select accno from loan);
+
+c) select distinct bank_customer.accno,bank_customer.cust_name,loan.loanamt from
+bank_customer,deposit,loan where bank_customer.accno=loan.accno and loan.accno not in(select
+accno from deposit);
+
+d) select bank_customer.accno,bank_customer.cust_name from bank_customer where accno
+IN(select loan.accno from loan,deposit where loan.accno=deposit.accno);
+
+e) select bank_customer.accno,bank_customer.cust_name from bank_customer where accno not
+IN(select loan.accno from loan) AND accno not IN(select deposit.accno from deposit); 

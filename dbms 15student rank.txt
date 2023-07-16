@@ -1,0 +1,38 @@
+CREATE TABLE stud_mark(regno varchar(3),sname varchar(20),avg_mark int);
+INSERT INTO stud_mark VALUES('101','Rohith',74),('102','Sraavan',43),('103','Sidharth',77),('104','Nada',65),
+('105','Amrutha',82),('106','Hari',38),('107','Nimil',73),('108','Nirmal',97),('109','Durga',93),('110','Nandana',59);
+
+CREATE or REPLACE PROCEDURE marklist() as 
+$$ 
+DECLARE
+dist int=0;
+fir int=0;
+sec int=0;
+third int=0;
+fail int=0;
+f record;
+BEGIN
+FOR f IN SELECT * FROM stud_mark
+LOOP
+IF f.avg_mark >=90 THEN
+  dist=dist+1;
+ElSIF f.avg_mark >=75 THEN
+  fir=fir+1;
+ElSIF f.avg_mark >=60 THEN
+  sec=sec+1;
+ElSIF f.avg_mark >=50 THEN
+ third=third+1;
+ELSE
+  fail=fail+1;
+END IF;
+END LOOP;
+RAISE NOTICE 'Number of students who got DISTINCTION: %',dist;
+RAISE NOTICE 'Number of students who got FIRST CLASS: %',fir;
+RAISE NOTICE 'Number of students who got SECOND CLASS: %',sec;
+RAISE NOTICE 'Number of students who got THIRD CLASS: %',third;
+RAISE NOTICE 'Number of students who got FAILED: %',fail;
+END;
+$$
+LANGUAGE 'plpgsql';
+
+CALL marklist();

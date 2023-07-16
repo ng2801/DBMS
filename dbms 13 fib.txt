@@ -1,0 +1,21 @@
+CREATE OR REPLACE PROCEDURE fib (N INTEGER)
+Language 'plpgsql'
+AS
+$$
+DECLARE
+A INT=0;
+B INT=1;
+C INT=0;
+COUNT INT;
+BEGIN
+FOR COUNT IN 1..N
+LOOP
+RAISE NOTICE '%' ,c;
+A=B;
+B=C;
+C=A+B;
+END LOOP;
+END;
+$$
+
+call fib(10);

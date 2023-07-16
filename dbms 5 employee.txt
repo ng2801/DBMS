@@ -1,0 +1,21 @@
+Create table employee(EmpID varchar(5) primary key, EName varchar(10), Salary integer, Department
+varchar(15),Age int);
+insert into employee values('E001','Fasal',50000,'HR',33),('E002','Julie',12000,'purchase',25),
+('E003','Thanu',33450,'Administrative',29),('E004','Jez',12345,'Office',28),
+('E005','Aryan',51342,'Sales',40),('E006','Meera',48000,'HR',40);
+
+a) select count(*) from employee;
+
+b) select ename,age from employee where age in (select max(age) from employee group by department);
+
+c) select department,avg(age) from employee group by department;
+
+d) select department, avg(salary) from employee group by department;
+
+e) select min(salary) from employee;
+
+f) select count(*) from employee where department ='purchase';
+
+g) select max(salary) from employee where department='Sales';
+
+h) select max(salary)-min(salary) from employee;

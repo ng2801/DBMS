@@ -1,0 +1,25 @@
+CREATE TABLE circle(radius int,area numeric);
+
+DO
+$$
+DECLARE
+R integer;
+A numeric(6,2);
+PI constant numeric=3.14;
+F RECORD;
+
+BEGIN
+delete from circle;
+FOR R IN 3..7
+LOOP
+A=PI*R*R;
+INSERT INTO circle values (R,A);
+END LOOP;
+RAISE NOTICE 'RADIUS  AREA';
+FOR F IN SELECT * FROM CIRCLE
+LOOP
+RAISE NOTICE ' %   % ',F.RADIUS,F.AREA;
+END LOOP;
+END;
+$$
+--select * from circle

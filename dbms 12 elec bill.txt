@@ -1,0 +1,49 @@
+create table bills(cust_no int PRIMARY KEY,cust_name varchar(10),units_consumed int,bill_amt numeric);
+insert into bills values (1,'Manav',250,NULL),(2,'Nirmal',50,NULL),(3,'Hari',150,NULL),
+(4,'Sid',100,NULL),(5,'Nimil',250,NULL);
+
+create or replace function billss(numeric,numeric) 
+returns numeric as
+$$
+DECLARE
+cust_no ALIAS for $1;
+units_consumed ALIAS for $2;
+bill_amt numeric(6,2);
+BEGIN
+if units_consumed<51 then
+    bill_amt=units_consumed*3.12;
+elseif units_consumed<101 then
+    bill_amt=((units_consumed-50)*3.7)+156.5;
+elseif units_consumed<151 then
+    bill_amt=((units_consumed-100)*4.8)+341.5;
+elseif units_consumed<201 then
+    bill_amt=((units_consumed-150)*86.4)+581.5;
+elseif units_consumed<251 then
+    bill_amt=((units_consumed-200)*7.6)+901.5;
+elseif units_consumed<250 then
+    bill_amt=((units_consumed-250)*7.9)+1281.5;
+end if;
+return bill_amt;
+end;
+$$
+language 'plpgsql';
+
+do
+$$
+DECLARE
+custno bills.cust_no%type;
+unitsconsumed bills.units_consumed%type;
+billamt bills.bill_amt%type;
+f record;
+begin 
+for f in select * from bills
+loop
+	custno=f.cust_no;
+	unitsconsumed=f.units_consumed;
+	select billss (custno,unitsconsumed)into billamt;
+	update bills set bill_amt=billamt where cust_no=custno;
+end loop;
+end;
+$$
+
+select*from bills;

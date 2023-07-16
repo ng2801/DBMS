@@ -1,0 +1,25 @@
+create table supplier(supcode int primary key, sname varchar(10), city varchar(10));
+insert into supplier values(101,'s1','kochi'),(102,'s2','calicut'),(103,'s3','kochi'),(104,'s4','kannur'),
+(105,'s5','thrissur'),(106,'s6','calicut');
+
+create table products(pcode int primary key, pname varchar(10));
+insert into products values(201,'p1'),(202,'p2'),(203,'p3'),(204,'p4');
+
+create table supl_product(supcode int references supplier(supcode),pcode int references products(pcode),qty int);
+insert into supl_product values(101,201,100),(102,202,200),(103,203,50),(104,201,75),(105,202,250);
+
+a)select f.supcode as supplier1, s.supcode as supplier2 from supplier f, supplier s where f.city=s.city and f.supcode<s.supcode;
+
+b)select sname from supplier, supl_product where supl_product.pcode='202' and supl_product.supcode=supplier.supcode;
+
+c)select supl_product.pcode from supl_product group by supl_product.pcode having count (supl_product.supcode)>1;
+
+d)select supcode from supplier where city in (select city from supplier where supcode='101')and supcode != '101';
+
+e)select supplier.sname from supplier, supl_product where supl_product.supcode=supplier.supcode and supl_product.pcode='201';
+
+f)select supplier.supcode from supplier where supplier.supcode in (select distinct supcode from supl_product);
+
+g)select pcode, qty from supl_product;
+
+select count(*) from supplier where supplier.supcode in (select distinct supcode from supl_product);
